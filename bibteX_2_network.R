@@ -12,7 +12,7 @@ library("scholar")
 source("functions.R")
 
 # lecture du bibteX
-A <- ReadBib(file ="../../Zotero/collections/inserm1.bib", .Encoding ="UTF-8")
+A <- ReadBib(file ="../../Zotero/collections/ulcerans1.bib", .Encoding ="UTF-8")
 
 # ou directement depuis l'API scholar
 id <- 'tuEIXL8AAAAJ&hl'       # Yan Holtz
