@@ -1,16 +1,24 @@
-# ce script permet à partir d'un bibteX de faire
-# un réseau de co-auteurs
+# ce script permet à partir d'un bibteX 
+# ou d'un identifiant google scholar 
+# de faire différentes analyses épistémiologiques
 
 # chargement des Librairies
 library("networkD3")
 library("igraph")
 library("RefManageR")
+library("scholar") 
 
 # définition des fonctions
-source("~/ALBAN/PROJET NETWORK/functions.R")
+source("functions.R")
 
 # lecture du bibteX
-A<-ReadBib(file ="~/ALBAN/PROJET NETWORK/papa.bib", .Encoding ="UTF-8")
+A <- ReadBib(file ="../../Zotero/collections/inserm1.bib", .Encoding ="UTF-8")
+
+# ou directement depuis l'API scholar
+id <- 'tuEIXL8AAAAJ&hl'       # Yan Holtz
+id <- 'o8gYsiIAAAAJ&hl'       # Sylvain Santoni
+
+citation = get_publications(id)
 
 # extraction des bibtex vers biblio
 biblio<- make_relations(A)
@@ -37,4 +45,4 @@ d3 = forceNetwork(Links = biblio, Nodes = vertices,
 show(d3)
 
 #If you want to save the graph as an html file (250 Ko pour mon fichier exemple)
-saveNetwork(d3,file = '~/ALBAN/PROJET NETWORK/papa_network_V1.html',selfcontained = T)
+saveNetwork(d3,file = '~/ALBAN/PROJET NETWORK/test_network_V1.html',selfcontained = T)

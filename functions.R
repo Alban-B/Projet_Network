@@ -1,34 +1,34 @@
-# fonctions nécessaires pour lire un bibteX et le transformer en network
+# fonctions nÃ©cessaires pour lire un bibteX et le transformer en network
 
 #--------------------------------------------------------------------------------
-# A partir d'une liste d'auteur, on sort le kième auteur. (+ remplacement de certains caractères spéciaux)
+# A partir d'une liste d'auteur, on sort le kiÃ¨me auteur. (+ remplacement de certains caractÃ¨res spÃ©ciaux)
 extract_name <- function(author_list,k){
   test<-paste0(unlist(author_list[k],use.names=TRUE))
   author_name<-paste0(substr(as.name(test[1]),0,1),". ",as.name(test[length(test)]))
-  # transformation caractère spéciaux
-  author_name<-gsub("Ã©","é",author_name)
-  author_name<-gsub("Ã§","ç",author_name)
+  # transformation caractÃ¨re spÃ©ciaux
+  author_name<-gsub("ÃƒÂ©","Ã©",author_name)
+  author_name<-gsub("ÃƒÂ§","Ã§",author_name)
   return(author_name)
 }
 
 #--------------------------------------------------------------------------------
-# création à partir du bibtex de la liste source/target
+# crÃ©ation Ã  partir du bibtex de la liste source/target
 make_relations<- function(bibtex){
-  
-  #initialisiation dégeu...
+
+  #initialisiation dÃ©geu...
   relations=data.frame("lol","lol",1)
   names(relations)=c("source","target","Value")
   relations$source<-as.character(relations$source)
   relations$target<-as.character(relations$target)
   relations$Value<-as.numeric(relations$Value)
-  
+
   for (i  in 1:length(bibtex)) {
     author_list<-(bibtex[i]$author)
     n=length(author_list)
     k=1
     # on parcourt les noms d'auteurs
     for (l in 1:n){
-      # on ne s'arrête que si les deux noms sont différents.
+      # on ne s'arrÃªte que si les deux noms sont diffÃ©rents.
       if (k != l) {
         a=extract_name(author_list,k);b=extract_name(author_list,l)
         if (paste(a,b) %in% paste(relations$source,relations$target) | paste(a,b) %in% paste(relations$target,relations$source)) {
@@ -44,7 +44,7 @@ make_relations<- function(bibtex){
 }
 
 #------------------------------------------------------------------------------------------
-# forme les groupes selon la proximité des individus.
+# forme les groupes selon la proximitÃ© des individus.
 make_vertices<- function(relations){
   # Create vertices :
   temp<-table(unlist(relations[,c("source","target")]))
@@ -52,7 +52,7 @@ make_vertices<- function(relations){
   names(vertices)<-c("name","freq")
   g = graph.data.frame(relations, directed=F, vertices=vertices) # raw graph
   vertices$group = edge.betweenness.community(g)$membership # betweeness centrality for each node for grouping
-   
+
   return(vertices)
 }
 
