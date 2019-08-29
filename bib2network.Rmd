@@ -1,0 +1,101 @@
+---
+title: "bibtex to network"
+output:
+  html_document:
+    code_folding: hide
+    highlight: tango
+    toc: true
+    toc_float: TRUE
+    theme: united
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Import des librairies  
+
+```{r librairies}
+# chargement des Librairies
+library("networkD3")
+library("igraph")
+library("RefManageR")
+library("scholar")
+library("ggplot2")
+library("tidyr")
+# chargement des fonctions en attendant un package maison
+source("functions.R")
+```  
+
+# Import des données  
+Il va rapidement être nécessaire de choisir un format pour nos données, choisir le plus simple puis mettre en place des converteurs. Pour le moment le format bibentry semble convenir.  
+
+```{r import}
+# manière numéro 1 utiliser un fichier .bib
+A <- ReadBib(file ="fusa_ble.bib", .Encoding ="UTF-8")
+
+# manière numéro 2 importer depuis scholar
+id <- 'tuEIXL8AAAAJ&hl'       # Yan Holtz
+id <- 'o8gYsiIAAAAJ&hl'       # Sylvain Santoni
+
+A <- ReadGS(scholar.id = "o8gYsiIAAAAJ",check.entries = FALSE)
+```  
+# Graphs basiques  
+
+## Nombre d'articles par année  
+
+```{r n articles annees}
+data.frame(A) %>%
+ggplot(aes(x=as.factor(year)))+ geom_bar()
+```  
+## Journeaux impliqués
+
+```{r journeaux plot}
+ 
+table(tolower(A$journal)) %>% as.data.frame() %>% filter(Freq>1) %>% arrange(Freq) %>% mutate(Var1=factor(Var1, Var1)) %>%
+  ggplot(aes(x=Var1, y=Freq)) +
+    geom_bar(stat="identity", width=0.5) +
+    coord_flip() +
+    xlab("") +
+    theme_classic()
+```  
+
+# Pour faire le graph à partir d'un format bibtex 
+
+```{r}
+#
+
+# extraction des bibtex vers biblio
+biblio<- make_relations(A)
+
+# création des group d'individus
+vertices<- make_vertices(biblio)
+
+# on ajoute les index des auteurs pour un trac? plus simple du network
+biblio<- update_relations(biblio,vertices)
+
+# sophisticated network graph
+d3 = forceNetwork(Links = biblio, Nodes = vertices,
+                  Source = "source.index", Target = "target.index",
+                  Nodesize="freq",
+                  NodeID = "name",
+                  Value="Value",
+                  Group = "group", # color nodes by betweeness calculated earlier
+                  charge = -70, # node repulsion
+                  linkDistance = 25,
+                  fontSize = 14,
+                  zoom = T)
+
+# If you want to show the graph
+show(d3)
+
+#If you want to save the graph as an html file (250 Ko pour mon fichier exemple)
+saveNetwork(d3,file = '~/ALBAN/PROJET NETWORK/test_network_V1.html',selfcontained = T)
+
+```
+
+
+
+
+
