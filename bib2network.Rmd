@@ -40,6 +40,7 @@ id <- 'tuEIXL8AAAAJ&hl'       # Yan Holtz
 id <- 'o8gYsiIAAAAJ&hl'       # Sylvain Santoni
 
 A <- ReadGS(scholar.id = "o8gYsiIAAAAJ",check.entries = FALSE)
+A <- ReadCrossRef(query="mycolactone",limit=200)
 ```  
 # Graphs basiques  
 
@@ -65,15 +66,17 @@ table(tolower(A$journal)) %>% as.data.frame() %>% filter(Freq>1) %>% arrange(Fre
 
 ```{r}
 #
-
+library(rmiscalb)
 # extraction des bibtex vers biblio
-biblio<- make_relations(A)
+biblio<- makeRelations(A)
 
+# it may be a good idea to keep only links with only a minimum amount.
+biblio <- biblio %>% filter(Value > 1)
 # création des group d'individus
-vertices<- make_vertices(biblio)
+vertices<- makeVertices(biblio)
 
 # on ajoute les index des auteurs pour un trac? plus simple du network
-biblio<- update_relations(biblio,vertices)
+biblio<- updateRelations(biblio,vertices)
 
 # sophisticated network graph
 d3 = forceNetwork(Links = biblio, Nodes = vertices,
