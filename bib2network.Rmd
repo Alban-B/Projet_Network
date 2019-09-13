@@ -24,8 +24,8 @@ library("RefManageR")
 library("scholar")
 library("ggplot2")
 library("tidyr")
-# chargement des fonctions en attendant un package maison
-source("functions.R")
+# package maison ?!
+library("rmiscalb")
 ```  
 
 # Import des données  
