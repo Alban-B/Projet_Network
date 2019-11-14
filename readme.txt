@@ -1,5 +1,7 @@
-Ensemble de script et de fichiers textes pour faire des réseaux bibliographiques.
-![version](https://img.shields.io/github/v/tag/besnarda/Projet_Network?include_prereleases)
+Ensemble de script et de fichiers textes pour faire des réseaux bibliographiques.  
+
+![version](https://img.shields.io/github/v/tag/besnarda/Projet_Network?include_prereleases)  
+
 Dans ce dossier:
 
 1. "bibteX_to_network.R" 
