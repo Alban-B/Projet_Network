@@ -1,6 +1,9 @@
 Ensemble de script et de fichiers textes pour faire des réseaux bibliographiques.  
 
-![version](https://img.shields.io/github/v/tag/besnarda/Projet_Network?include_prereleases)  
+<a href="https://github.com/besnarda/Traitement-Image/contributors" alt="Contributors">
+     <img src="https://img.shields.io/github/v/tag/besnarda/Projet_Network?include_prereleases" /></a>
+
+![version]()  
 
 Dans ce dossier:
 
