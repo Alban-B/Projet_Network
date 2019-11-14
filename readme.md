@@ -1,6 +1,6 @@
 Ensemble de script et de fichiers textes pour faire des réseaux bibliographiques.  
 
-<a href="https://github.com/besnarda/Projet_Network/release" alt="Release">
+<a href="https://github.com/besnarda/Projet_Network/releases" alt="Release">
      <img src="https://img.shields.io/github/v/tag/besnarda/Projet_Network?include_prereleases" /></a>
 
 
